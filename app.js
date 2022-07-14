@@ -68,11 +68,39 @@ class CuentaBanco{
         this.clave = clave;
     }
 }
-let nombreUser = prompt('Ingrese su Nombre de Usuario');
-nombreUser = nombreUser.toUpperCase();
-let dineroUser = parseInt(prompt('Por favor, ingrese su dinero de su cuenta bancaria.'));
-let claveUser = parseInt(prompt('Cree su clave bancaria de 3 digitos.'));
-const Usuario1 = new CuentaBanco(nombreUser, {Pesos: dineroUser, Dolares: 100, Euros: 500, Reales: 460}, claveUser)
+let formulario = document.getElementById('form')
+
+
+let btnIngresar = document.getElementById('btnIngreso')
+btnIngresar.addEventListener('click', () =>{
+    
+    menuPricipal();
+    
+    
+})
+
+function ingresarDatosForm(){
+    formulario.onsubmit = (event) => ingresoUser(event)
+}
+
+let nombreUserInput = document.getElementById('nombreUser');
+let dineroUserInput = document.getElementById('dineroUser');
+let claveUserInput = document.getElementById('claveUser');
+
+
+
+function ingresoUser(event){
+    // event.preventDefault();
+    
+    Usuario1.nombre = nombreUserInput.value
+    Usuario1.dinero.Pesos = parseInt(dineroUserInput.value)
+
+}
+let Usuario1 = new CuentaBanco(nombreUserInput.value, {Pesos: dineroUserInput.value, Dolares: 100, Euros: 500, Reales: 460}, claveUserInput)
+
+
+
+
 
 const MONEDAS_EXTRANJERAS = [[{Divisa: "Dolar Venta", Precio: "130,25"},{Divisa: "Dolar Compra", Precio: "124.25"}], [{Divisa: "Euro Venta", Precio: "135,00"}, {Divisa: "Euro Compra", Precio: "128.00"}], [{Divisa: "Real Venta", Precio: "25,80"}, {Divisa: "Real compra", Precio: "21.80"}]]
 
@@ -91,16 +119,17 @@ const MONEDA_IMPUESTO = MONEDAS_EXTRANJERAS.map(moneda =>{
 const MOVIMIENTOS_CUENTA = [];
 
 let contenedor = document.getElementById('contenedor');
-const bienvenida = document.querySelector('.bienvenida');
-bienvenida.innerHTML = `¡Bienvenido ${Usuario1.nombre}!`;
 document.title = `¡Bienvenido ${Usuario1.nombre}!`
 
 let btnMenu = document.getElementById('mainMenu')
 
 
 const menuPricipal = () => {
+    btnMenu.style.display = 'block'
+    const bienvenida = document.querySelector('.bienvenida');
+    bienvenida.innerHTML = `¡Bienvenido ${Usuario1.nombre}!`;
     contenedor.innerHTML = `
-            <h3 class="tituloMenu text-center h2 mb-3 text-uppercase text-white">Opciones</h3>
+    <h3 class="tituloMenu text-center h2 mb-3 text-uppercase text-white">Opciones</h3>
             <div class="row d-flex justify-content-center gap-4">
                 <div id="consultas" class="opciones col-lg-3 col-sm-5 col-4 text-center" onclick="consultar()">
                     <h2>Consultas</h2>
@@ -113,19 +142,21 @@ const menuPricipal = () => {
                 <div id="retiro" class="opciones col-lg-3 col-sm-5 col-4 text-center" onclick="retirar()">
                     <h2>Retirar</h2>
                 </div>
-                <div id="divisas" class="opciones col-lg-3 col-sm-5 col-4 text-center" onclick="compraDivisa()">
+                <div id="divisas" class="desabilitado opciones col-lg-3 col-sm-5 col-4 text-center" "onclick="compraDivisa()"">
                     <h2>Divisas</h2>
                 </div>
-                <div id="prestamos" class="opciones col-lg-3 col-sm-5 col-4 text-center" onclick="prestamo()">
+                <div id="prestamos" class="desabilitado opciones col-lg-3 col-sm-5 col-4 text-center" onclick="prestamo()">
                     <h2>Prestamos</h2>
                 </div>
-                <div id="movimientos" class="opciones col-lg-3 col-sm-5 col-4 text-center" onclick="movimientos()">
+                <div id="movimientos" class="desabilitado opciones col-lg-3 col-sm-5 col-4 text-center" "onclick="movimientos()"">
                     <h2>Movimientos</h2>
                 </div>
             </div>
+            
         `
     }
-menuPricipal();
+    
+// menuPricipal();
 
 const consultar = () =>{
     // contenedor = '';
@@ -149,8 +180,9 @@ const consultar = () =>{
             <span>R$${Usuario1.dinero.Reales}<span>
         </div>
     </div>
+    
             `
-            console.log(contenedor);
+            // console.log(contenedor);
         }
 const deposito = () => {
     contenedor.innerHTML = 
@@ -162,6 +194,7 @@ const deposito = () => {
             <input type="submit" class="input" id="btnEnviar" value="Aceptar">
         </div>
     </div>
+    <button id="mainMenu">Regresar al Menu Principal</button>
     `
     let btnEnviar = document.getElementById('btnEnviar');
     let deposito = document.getElementById("monto");
@@ -179,7 +212,9 @@ const deposito = () => {
                 <h3>Pesos:</h3>
                 <span>$${Usuario1.dinero.Pesos}<span>
             </div>
-        </div>`
+        </div>
+        <button id="mainMenu" onclick="menuPrincipal()">Regresar al Menu Principal</button>
+        `
     })
                 let movDepo = 'Has depositado: $' + deposito;
                     MOVIMIENTOS_CUENTA.push(movDepo) 
@@ -339,5 +374,6 @@ const movimientos = () => {
 
 
 btnMenu.addEventListener('click', () => {menuPricipal()})
+
 
 

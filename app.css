@@ -30,6 +30,7 @@
     width: 150px;
     height: 100px;
     text-align: center;
+    margin: 10px;
 }
 
 .container-depo{
@@ -54,6 +55,7 @@
 }
 .btnEnviar{
     width: 80px;
+    margin-top: 5px;
 }
 .dineroConsulta .montoDepo{
     width: 180px;
@@ -67,4 +69,36 @@ body{
     margin:10px auto;
     width: 200px;
     height: 50px;
+}
+.contenedor_user{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 400px;
+    margin:10px auto;
+}
+.contenedor_user h2{
+    font-size: 25px;
+    color: #FFF;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+.contenedor_user input{
+    width: 200px;
+    margin: auto;
+    text-align: center;
+}
+.mainMenu{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center
+}
+#mainMenu{
+    display: none;
+}
+.desabilitado{
+    cursor: not-allowed;
+    background-color: rgb(148, 148, 148) !important;
 }

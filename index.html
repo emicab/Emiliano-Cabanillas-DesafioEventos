@@ -15,9 +15,20 @@
     <h1 class="tituloHead text-center text-white">CAJERO AUTOMATICO</h1>
     <h3 class="bienvenida text-center text-white">BIENVENIDO</h3>
     <div class="container-fluid">
-        <div id="contenedor" class="mainMenu container-fluid p-3" ></div>
+        <div id="contenedor" class="mainMenu container-fluid p-3" >
+            <form action="" id="form" class="contenedor_user">
+                <h2>Ingrese su Usuario</h2>
+                <input type="text" id="nombreUser" class="input" placeholder="Usuario">
+                <h2>Ingrese su dinero en pesos</h2>
+                <input type="number" id="dineroUser" class="input" placeholder="$0000">
+                <h2>Ingrese su clave bancaria</h2>
+                <input type="password" id="claveUser" class="input" placeholder="Clave">
+                <input type="button" id="btnIngreso" class="btnEnviar input" value="Ingresar" onclick="ingresoUser()" >
+            </form>
+        </div>
+        <button id="mainMenu">Regresar al Menu Principal</button>
     </div>
-    <button id="mainMenu">Regresar al Menu Principal</button>
+    
 
 
 

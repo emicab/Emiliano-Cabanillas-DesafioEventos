@@ -1,8 +1,8 @@
-const btnAtras = document.querySelector('.btnAtras');
-
-/* btnAtras.addEventListener('click', () =>{
-    cajeroAutomatico();
-}) */
+let btnAtras = document.querySelector('.btnAtras');
+let contenedor = document.getElementById('contenedor');
+let btnMenu = document.getElementById('mainMenu')
+let formulario = document.getElementById('form')
+let btnIngresar = document.getElementById('btnIngreso')
 
 
 const intereses = (prestamo, cuotas) => {
@@ -20,16 +20,13 @@ const retirar = () =>{
             <h2 class="text-center text-white">Ingrese el monto a retirar</h2>
             <input class="input monto" type="number" name="" id="monto">
             <h2 class="text-center text-white">Ingrese su clave bancaria</h2>
-            <input class="input claveUser" type="number" name="" id="claveUser">
+            <input class="input claveUser" type="password" name="" id="claveUser">
             <input type="submit" class="input btnEnviar" id="btnEnviar" value="Aceptar">
-        </div>
-    
-    `
+    </div>`
     let claveUsuario = document.getElementById('claveUser');
     let montoRetirar = document.getElementById('monto');
 
     let btnEnviar = document.getElementById('btnEnviar');
-
     btnEnviar.addEventListener('click', () =>{
         if (claveUsuario.value == Usuario1.clave) {
             if(montoRetirar.value <= Usuario1.dinero.Pesos){
@@ -46,6 +43,9 @@ const retirar = () =>{
                             <span>$${Usuario1.dinero.Pesos}<span>
                         </div>
                     </div>`
+                    Object.entries(Usuario1.dinero).forEach(e =>{
+                        localStorage.setItem(`dinero${e[0]}`, e[1])
+                    })
                 let movRetiro = 'Has retirado: $' + montoRetirar.value;
                 MOVIMIENTOS_CUENTA.push(movRetiro);
             }else{
@@ -57,9 +57,7 @@ const retirar = () =>{
             claveUsuario.style.borderWidth = '2px'
             }
     })
-    
 }
-
 
 class CuentaBanco{
     constructor(nombre, dinero, clave){
@@ -68,15 +66,9 @@ class CuentaBanco{
         this.clave = clave;
     }
 }
-let formulario = document.getElementById('form')
 
-
-let btnIngresar = document.getElementById('btnIngreso')
 btnIngresar.addEventListener('click', () =>{
-    
-    menuPricipal();
-    
-    
+    validarIngreso();
 })
 
 function ingresarDatosForm(){
@@ -87,24 +79,46 @@ let nombreUserInput = document.getElementById('nombreUser');
 let dineroUserInput = document.getElementById('dineroUser');
 let claveUserInput = document.getElementById('claveUser');
 
-
-
-function ingresoUser(event){
-    // event.preventDefault();
-    
+const validarIngreso = () =>{
+    if(typeof localStorage.nombreUsuario === 'string'){
+        menuPricipal()
+        nombreLS = localStorage.getItem('nombreUsuario');
+        Usuario1.nombre = nombreLS;
+        dineroLS = localStorage.getItem('dineroPesos')
+        Usuario1.dinero.Pesos = dineroLS;
+    }else{
+        ingresoUser()
+    }
+}
+//Boton Ingresar. Obtiene datos de los inputs y los envia al Objeto Usuario1 y al localStorage.
+function ingresoUser(){    
+    document.title = `¡Bienvenido ${nombreUserInput.value}!`
     Usuario1.nombre = nombreUserInput.value
+    Usuario1.clave = claveUserInput.value
     Usuario1.dinero.Pesos = parseInt(dineroUserInput.value)
+    localStorage.setItem('nombreUsuario', Usuario1.nombre)
+    Object.entries(Usuario1.dinero).forEach(e =>{
+        localStorage.setItem(`dinero${e[0]}`, e[1])
+    })
+    localStorage.setItem('claveUser', Usuario1.clave)
+    
+    console.log(Usuario1.clave);
 
 }
-let Usuario1 = new CuentaBanco(nombreUserInput.value, {Pesos: dineroUserInput.value, Dolares: 100, Euros: 500, Reales: 460}, claveUserInput)
+let Usuario1 = new CuentaBanco('', {Pesos: 0, Dolares: 100, Euros: 500, Reales: 460}, claveUserInput)
 
-
+// boton Salir. Refresca la pagina y elimina datos de localStorage
+let btnSalir = document.getElementById('btnSalir')
+btnSalir.addEventListener('click', _ => {
+    location.reload();
+    for(datos in localStorage){
+        localStorage.removeItem(datos)
+    }
+});
 
 
 
 const MONEDAS_EXTRANJERAS = [[{Divisa: "Dolar Venta", Precio: "130,25"},{Divisa: "Dolar Compra", Precio: "124.25"}], [{Divisa: "Euro Venta", Precio: "135,00"}, {Divisa: "Euro Compra", Precio: "128.00"}], [{Divisa: "Real Venta", Precio: "25,80"}, {Divisa: "Real compra", Precio: "21.80"}]]
-
-// console.log(MONEDAS_EXTRANJERAS[0][0].Divisa);
 
 let impuestoSolidario = 0.30;
 let impuesto = 0.35;
@@ -118,18 +132,13 @@ const MONEDA_IMPUESTO = MONEDAS_EXTRANJERAS.map(moneda =>{
 
 const MOVIMIENTOS_CUENTA = [];
 
-let contenedor = document.getElementById('contenedor');
-document.title = `¡Bienvenido ${Usuario1.nombre}!`
-
-let btnMenu = document.getElementById('mainMenu')
-
-
 const menuPricipal = () => {
     btnMenu.style.display = 'block'
+    btnSalir.style.display = 'block'
     const bienvenida = document.querySelector('.bienvenida');
     bienvenida.innerHTML = `¡Bienvenido ${Usuario1.nombre}!`;
     contenedor.innerHTML = `
-    <h3 class="tituloMenu text-center h2 mb-3 text-uppercase text-white">Opciones</h3>
+    <h3 class="tituloMenu text-center h2 mb-3 text-uppercase text-white">Menu Principal</h3>
             <div class="row d-flex justify-content-center gap-4">
                 <div id="consultas" class="opciones col-lg-3 col-sm-5 col-4 text-center" onclick="consultar()">
                     <h2>Consultas</h2>
@@ -158,6 +167,7 @@ const menuPricipal = () => {
     
 // menuPricipal();
 
+
 const consultar = () =>{
     // contenedor = '';
     contenedor.innerHTML =
@@ -180,9 +190,7 @@ const consultar = () =>{
             <span>R$${Usuario1.dinero.Reales}<span>
         </div>
     </div>
-    
             `
-            // console.log(contenedor);
         }
 const deposito = () => {
     contenedor.innerHTML = 
@@ -215,6 +223,9 @@ const deposito = () => {
         </div>
         <button id="mainMenu" onclick="menuPrincipal()">Regresar al Menu Principal</button>
         `
+        Object.entries(Usuario1.dinero).forEach(e =>{
+            localStorage.setItem(`dinero${e[0]}`, e[1])
+        })
     })
                 let movDepo = 'Has depositado: $' + deposito;
                     MOVIMIENTOS_CUENTA.push(movDepo) 
@@ -225,7 +236,7 @@ const prestamo = () => {
     <h2>Ingrese el monto a solicitar</h2>
     <input type="number" name="" id="montoSolicitado">
     `
-     let prestamo = parseInt(prompt(''));
+    let prestamo = parseInt(prompt(''));
                 let cuotas = parseInt(prompt('Ingrese el numero de cuotas desea devolver el prestamo'));
                 intereses(prestamo, cuotas);
                 // alert(`Lo que debera pagar es: ${cuotas} cuotas de $${calculo} con un total de $${totalPrest}`);
@@ -370,9 +381,6 @@ const movimientos = () => {
                     console.log(MOVIMIENTOS_CUENTA[movimientos]);
                 }
 }
-
-
-
 btnMenu.addEventListener('click', () => {menuPricipal()})
 
 

@@ -18,15 +18,17 @@
         <div id="contenedor" class="mainMenu container-fluid p-3" >
             <form action="" id="form" class="contenedor_user">
                 <h2>Ingrese su Usuario</h2>
-                <input type="text" id="nombreUser" class="input" placeholder="Usuario">
+                <input type="text" id="nombreUser" class="input" placeholder="Usuario" autocomplete="off" required>
                 <h2>Ingrese su dinero en pesos</h2>
-                <input type="number" id="dineroUser" class="input" placeholder="$0000">
+                <input type="number" id="dineroUser" class="input" placeholder="$0000" required>
                 <h2>Ingrese su clave bancaria</h2>
-                <input type="password" id="claveUser" class="input" placeholder="Clave">
-                <input type="button" id="btnIngreso" class="btnEnviar input" value="Ingresar" onclick="ingresoUser()" >
+                <input type="password" id="claveUser" class="input" placeholder="Clave" minlength="3" required>
+                <input type="button" id="btnIngreso" class="btnEnviar input mt-3" value="Ingresar">
+                <!-- onclick="validarIngreso()"  -->
             </form>
         </div>
         <button id="mainMenu">Regresar al Menu Principal</button>
+        <input type="button" id="btnSalir" class="btnEnviar input" value="Salir" onclick="reload()">
     </div>
     
 

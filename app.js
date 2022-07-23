@@ -46,10 +46,19 @@ const retirar = () =>{
                     Object.entries(Usuario1.dinero).forEach(e =>{
                         localStorage.setItem(`dinero${e[0]}`, e[1])
                     })
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Retiro Exitoso',
+                        text: 'El dinero se ha retirado con exito!',
+                    })
                 let movRetiro = 'Has retirado: $' + montoRetirar.value;
                 MOVIMIENTOS_CUENTA.push(movRetiro);
             }else{
-                alert('No tiene saldo suficiente');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Parece que no tienes saldo suficiente!',
+                })
             }
         }else{
             claveUsuario.style.borderColor = '#f00'
@@ -103,7 +112,13 @@ function ingresoUser(){
     localStorage.setItem('claveUser', Usuario1.clave)
     
     console.log(Usuario1.clave);
-
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: `Bienvenido ${Usuario1.nombre}`,
+        showConfirmButton: false,
+        timer: 1500
+      })
 }
 let Usuario1 = new CuentaBanco('', {Pesos: 0, Dolares: 100, Euros: 500, Reales: 460}, claveUserInput)
 
@@ -225,6 +240,11 @@ const deposito = () => {
         `
         Object.entries(Usuario1.dinero).forEach(e =>{
             localStorage.setItem(`dinero${e[0]}`, e[1])
+        })
+        Swal.fire({
+            icon: 'success',
+            title: 'Deposito Exitoso',
+            text: 'El dinero se ha depositado con exito!',
         })
     })
                 let movDepo = 'Has depositado: $' + deposito;

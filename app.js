@@ -77,7 +77,7 @@ class CuentaBanco{
 }
 
 btnIngresar.addEventListener('click', () =>{
-    validarIngreso();
+    ingresoUser();
 })
 
 function ingresarDatosForm(){
@@ -96,7 +96,7 @@ const validarIngreso = () =>{
         dineroLS = localStorage.getItem('dineroPesos')
         Usuario1.dinero.Pesos = dineroLS;
     }else{
-        ingresoUser()
+        
     }
 }
 //Boton Ingresar. Obtiene datos de los inputs y los envia al Objeto Usuario1 y al localStorage.
@@ -119,6 +119,9 @@ function ingresoUser(){
         showConfirmButton: false,
         timer: 1500
       })
+      setTimeout(() => {
+        menuPricipal();
+      }, 2000);
 }
 let Usuario1 = new CuentaBanco('', {Pesos: 0, Dolares: 100, Euros: 500, Reales: 460}, claveUserInput)
 
